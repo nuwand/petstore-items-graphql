@@ -1,28 +1,32 @@
 import ballerina/graphql;
 
-type Item record {
-    readonly string id;
-    string name;
-    string description;
-    string[] includes;
-    string[] intendedFor;
-    string[] colors;
-    string [] material?;
-    float price;
+type StockDetails record {
+    string includes;
+    string intendedFor;
+    string color;
+    string material?;
 };
 
-table<Item> key(id) itemsTable = table [
-    {id: "1", name: "Top Paw® Valentine's Day Single Dog Sweater", description: "Dress your pup up appropriately for Valentine's Day with this Top " +
-    "Paw Valentine's Day Kisses Dog Sweater.", includes: ["1 Sweater"], intendedFor: ["Dogs"], colors: ["Red", "White", "Black"], 
-    material: ["100% Acrylic"], price: 14.99},
+type Item record {
+    readonly string itemID;
+    string itemName;
+    string itemDesc;
+    float price;
+    StockDetails stockDetails;
+};
 
-     {id: "2", name: "Arcadia Trail™ Dog Windbreaker", description: "The right jacket for your pet while the two of you are out on the trail together " +
-     "can make all the difference when it comes to both warmth and comfort.", includes: ["1 Windbreaker Jacket"], intendedFor: ["Dogs"], colors: ["Pink", "Navy"], 
-    price: 29.99},
 
-    {id: "3", name: "Top Paw® Valentine's Day Kisses Dog Tee and Bandana", description: "Dress your pup up appropriately for Valentine's Day with this " +
-    "Top Paw Valentine's Day Kisses Dog Tee and Bandana.", includes: ["1 Tee", "Bandana"], intendedFor: ["Dogs"], colors: ["White", "Red", "Black"], 
-    material: ["T-Shirt: 65% Polyester", "35% Cotton; Bandana: 100% Cotton"], price: 7.47}
+
+table<Item> key(itemID) itemsTable = table [
+    {itemID: "1", itemName: "Top Paw® Valentine's Day Single Dog Sweater", itemDesc: "Dress your pup up appropriately for Valentine's Day with this Top " +
+    "Paw Valentine's Day Kisses Dog Sweater.", price: 14.99, stockDetails: {includes: "1 Sweater", intendedFor: "Dogs", color: "Red, White, Black", material: "100% Acrylic"}},
+
+     {itemID: "2", itemName: "Arcadia Trail™ Dog Windbreaker", itemDesc: "The right jacket for your pet while the two of you are out on the trail together " +
+     "can make all the difference when it comes to both warmth and comfort.", price: 29.99,  stockDetails: {includes: "1 Windbreaker Jacket", intendedFor: "Dogs", color: "Pink, Navy"}},
+
+    {itemID: "3", itemName: "Top Paw® Valentine's Day Kisses Dog Tee and Bandana", itemDesc: "Dress your pup up appropriately for Valentine's Day with this " +
+    "Top Paw Valentine's Day Kisses Dog Tee and Bandana.", stockDetails: {includes: "1 Tee, Bandana", intendedFor: "Dogs", color: "White, Red, Black", material: "T-Shirt: 65% Polyester, 35% Cotton; Bandana: 100% Cotton"}, 
+    price: 7.47}
 ];
 
 service / on new graphql:Listener(9000) {
